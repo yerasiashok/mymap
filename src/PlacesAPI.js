@@ -18,7 +18,7 @@ export const locations = [
     {title: 'Wipro Delhi', location: {lat: 28.645672, lng: 77.284676}},
     {title: 'Wipro Indore ', location: {lat: 22.749010, lng: 75.801279}}
 ];
-export const getAll = () => {
+/*export const getAll = () => {
     return locations;
-}
+}*/
 

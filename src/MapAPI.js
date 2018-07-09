@@ -1,121 +1,15 @@
-const google = window.google
+const google = window.google;
 
-export var map;
+export map = window.map;
 
 // Create a new blank array for all the listing markers.
 var markers = [];
-
-// This global polygon variable is to ensure only ONE polygon is rendered.
-var polygon = null;
 
 // Create placemarkers array to use in multiple functions to have control
 // over the number of places that show.
 var placeMarkers = [];
 
-export const initMap = () => {
-  // Create a styles array to use with the map.
-  var styles = [
-    {
-      featureType: 'water',
-      stylers: [
-        { color: '#19a0d8' }
-      ]
-    },{
-      featureType: 'administrative',
-      elementType: 'labels.text.stroke',
-      stylers: [
-        { color: '#ffffff' },
-        { weight: 6 }
-      ]
-    },{
-      featureType: 'administrative',
-      elementType: 'labels.text.fill',
-      stylers: [
-        { color: '#e85113' }
-      ]
-    },{
-      featureType: 'road.highway',
-      elementType: 'geometry.stroke',
-      stylers: [
-        { color: '#efe9e4' },
-        { lightness: -40 }
-      ]
-    },{
-      featureType: 'transit.station',
-      stylers: [
-        { weight: 9 },
-        { hue: '#e85113' }
-      ]
-    },{
-      featureType: 'road.highway',
-      elementType: 'labels.icon',
-      stylers: [
-        { visibility: 'off' }
-      ]
-    },{
-      featureType: 'water',
-      elementType: 'labels.text.stroke',
-      stylers: [
-        { lightness: 100 }
-      ]
-    },{
-      featureType: 'water',
-      elementType: 'labels.text.fill',
-      stylers: [
-        { lightness: -100 }
-      ]
-    },{
-      featureType: 'poi',
-      elementType: 'geometry',
-      stylers: [
-        { visibility: 'on' },
-        { color: '#f0e4d3' }
-      ]
-    },{
-      featureType: 'road.highway',
-      elementType: 'geometry.fill',
-      stylers: [
-        { color: '#efe9e4' },
-        { lightness: -25 }
-      ]
-    }
-  ];
-
-  // Constructor creates a new map - only center and zoom are required.
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 40.7413549, lng: -73.9980244},
-    zoom: 13,
-    styles: styles,
-    mapTypeControl: false
-  });
-
-  // Create a searchbox in order to execute a places search
-  var searchBox = new google.maps.places.SearchBox(
-      document.getElementById('places-search'));
-  // Bias the searchbox to within the bounds of the map.
-  searchBox.setBounds(map.getBounds());
-
-  // These are the real estate listings that will be shown to the user.
-  // Normally we'd have these in a database instead.
-  var locations = [
-    {title: 'Wipro Infotech Ltd', location: {lat: 12.975498, lng: 77.599139}},
-    {title: 'Wipro Limited', location: {lat: 12.914930, lng: 77.603831}},
-    {title: 'Wipro', location: {lat: 12.906061, lng: 77.595797}},
-    {title: 'Wipro Limited Hyderadad', location: {lat: 17.443175, lng: 78.299162}},
-    {title: 'Wipro Limited Infotech Hyderadad', location: {lat: 17.448547, lng: 78.480557}},
-    {title: 'Wipro BPS Hyderadad', location: {lat: 17.463233, lng: 78.373450}},
-    {title: 'Wipro Vizag ', location: {lat: 17.737244, lng: 83.312235}},
-    {title: 'Wipro Limited Chennai', location: {lat: 12.909535, lng: 80.227160}},
-    {title: 'Wipro Systems Limited Chennai', location: {lat: 13.041495, lng: 80.257229}},
-    {title: 'Wipro Infotech Chennai', location: {lat: 13.042771, lng: 80.255482}},
-    {title: 'Wipro Technologies Kochi ', location: {lat: 10.016199, lng: 76.365412}},
-    {title: 'Wipro Limited Kochi ', location: {lat: 9.974885, lng: 76.300649}},
-    {title: 'Wipro Limited Pune ', location: {lat: 18.529534, lng: 73.842186}},
-    {title: 'Wipro Infotech Mumbai ', location: {lat: 19.121515, lng: 72.911932}},
-    {title: 'Wipro Kolkata ', location: {lat: 22.583011, lng: 88.430595}},
-    {title: 'Wipro Delhi', location: {lat: 28.645672, lng: 77.284676}},
-    {title: 'Wipro Indore ', location: {lat: 22.749010, lng: 75.801279}}
-  ];
+function displayLocations(poi){
 
   var largeInfowindow = new google.maps.InfoWindow();
 
@@ -155,16 +49,6 @@ export const initMap = () => {
     });
   }
   showListings()
-  
-  // Listen for the event fired when the user selects a prediction from the
-  // picklist and retrieve more details for that place.
-  searchBox.addListener('places_changed', function() {
-    searchBoxPlaces(this);
-  });
-
-  // Listen for the event fired when the user selects a prediction and clicks
-  // "go" more details for that place.
-  document.getElementById('go-places').addEventListener('click', textSearchPlaces);
 }
 
 // This function populates the infowindow when the marker is clicked. We'll only allow
@@ -243,66 +127,4 @@ export const makeMarkerIcon = (markerColor) => {
     new google.maps.Point(10, 34),
     new google.maps.Size(21,34));
   return markerImage;
-}
-// This function fires when the user selects a searchbox picklist item.
-// It will do a nearby search using the selected query string or place.
-export const searchBoxPlaces = (searchBox) => {
-  hideMarkers(placeMarkers);
-  var places = searchBox.getPlaces();
-  // For each place, get the icon, name and location.
-  createMarkersForPlaces(places);
-  if (places.length === 0) {
-    window.alert('We did not find any places matching that search!');
-  }
-}
-
-// This function firest when the user select "go" on the places search.
-// It will do a nearby search using the entered query string or place.
-export const textSearchPlaces = () => {
-  var bounds = map.getBounds();
-  hideMarkers(placeMarkers);
-  var placesService = new google.maps.places.PlacesService(map);
-  placesService.textSearch({
-    query: document.getElementById('places-search').value,
-    bounds: bounds
-  }, function(results, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      createMarkersForPlaces(results);
-    }
-  });
-}
-
-// This function creates markers for each place found in either places search.
-export const createMarkersForPlaces = (places) => {
-  var bounds = new google.maps.LatLngBounds();
-  for (var i = 0; i < places.length; i++) {
-    var place = places[i];
-    var icon = {
-      url: place.icon,
-      size: new google.maps.Size(35, 35),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(15, 34),
-      scaledSize: new google.maps.Size(25, 25)
-    };
-    // Create a marker for each place.
-    var marker = new google.maps.Marker({
-      map: map,
-      icon: icon,
-      title: place.name,
-      position: place.geometry.location,
-      id: place.id
-    });
-    // If a marker is clicked, do a place details search on it in the next function.
-    marker.addListener('click', function() {
-    //getPlacesDetails(this, place);
-    });
-    placeMarkers.push(marker);
-    if (place.geometry.viewport) {
-      // Only geocodes have viewport.
-      bounds.union(place.geometry.viewport);
-    } else {
-      bounds.extend(place.geometry.location);
-    }
-  }
-  map.fitBounds(bounds);
 }
