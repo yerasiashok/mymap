@@ -21,7 +21,7 @@ class MainComponent extends React.Component {
         event.target.value.toLowerCase()) !== -1;
     });
     this.setState({filteredPlaces: updatedList});
-    window.displayLocations(updatedList);
+    this.props.displayLocations(updatedList);
   }
   render() {
     return (  
@@ -35,7 +35,7 @@ class MainComponent extends React.Component {
         <div>
           <ul>
             {this.state.filteredPlaces.map((place) => (
-              <li key={place.title} > <a href="#" onClick={(e) => window.displayLocations([place])}>{place.title} </a></li>
+              <li key={place.title} > <a href="#" onClick={(e) => this.props.displayLocations([place])}>{place.title} </a></li>
             ))}
           </ul>
         </div>

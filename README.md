@@ -10,13 +10,11 @@ To get started developing right away:
 
 ## How to use
 
-You can Search for books by author or title.
-Can add book to read, currently reading, want to read categories by select categorie from bropdown provided for each book.
-
+You can Search for WIPRO office locations.
 
 ## Important
 
-The backend API uses a fixed set of cached search results and is limited to a particular set of search terms, which can be found in [SEARCH_TERMS.md](SEARCH_TERMS.md). That list of terms are the _only_ terms that will work with the backend, so don't be surprised if your searches for Basket Weaving or Bubble Wrap don't come back with any results.
+Use Google Map API's and Foursquare API's
 
 
 ## Contributing
