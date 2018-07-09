@@ -1,4 +1,6 @@
-var map;
+const google = window.google
+
+export var map;
 
 // Create a new blank array for all the listing markers.
 var markers = [];
@@ -170,7 +172,7 @@ export const initMap = () => {
 // on that markers position.
 export const populateInfoWindow = (marker, infowindow) => {
   // Check to make sure the infowindow is not already opened on this marker.
-  if (infowindow.marker != marker) {
+  if (infowindow.marker !== marker) {
     // Clear the infowindow content to give the streetview time to load.
     infowindow.setContent('');
     infowindow.marker = marker;
@@ -184,7 +186,7 @@ export const populateInfoWindow = (marker, infowindow) => {
     // position of the streetview image, then calculate the heading, then get a
     // panorama from that and set the options
     function getStreetView(data, status) {
-      if (status == google.maps.StreetViewStatus.OK) {
+      if (status === google.maps.StreetViewStatus.OK) {
         var nearStreetViewLocation = data.location.latLng;
         var heading = google.maps.geometry.spherical.computeHeading(
           nearStreetViewLocation, marker.position);
@@ -249,7 +251,7 @@ export const searchBoxPlaces = (searchBox) => {
   var places = searchBox.getPlaces();
   // For each place, get the icon, name and location.
   createMarkersForPlaces(places);
-  if (places.length == 0) {
+  if (places.length === 0) {
     window.alert('We did not find any places matching that search!');
   }
 }
@@ -292,7 +294,7 @@ export const createMarkersForPlaces = (places) => {
     });
     // If a marker is clicked, do a place details search on it in the next function.
     marker.addListener('click', function() {
-    getPlacesDetails(this, place);
+    //getPlacesDetails(this, place);
     });
     placeMarkers.push(marker);
     if (place.geometry.viewport) {

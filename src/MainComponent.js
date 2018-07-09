@@ -3,12 +3,13 @@ import React from 'react'
 //import BookShelfList from './BookShelfList'
 import PropTypes from 'prop-types'
 import './App.css'
+import * as MapStyles from './MapStyles.js'
 //import * as locations from './MapAPI.js'
 
 class MainComponent extends React.Component { 
   static propTypes = {
     places: PropTypes.array.isRequired
-    //onChangeFilter : PropTypes.func.isRequired
+    //mapinit : PropTypes.func.isRequired
   } 
   state = {
     filteredPlaces: this.props.places
@@ -20,6 +21,7 @@ class MainComponent extends React.Component {
         event.target.value.toLowerCase()) !== -1;
     });
     this.setState({filteredPlaces: updatedList});
+    window.displayLocations(updatedList);
   }
   render() {
     return (  
@@ -33,7 +35,7 @@ class MainComponent extends React.Component {
         <div>
           <ul>
             {this.state.filteredPlaces.map((place) => (
-              <li key={place.title} > <a >{place.title} </a></li>
+              <li key={place.title} > <a href="#" onClick={(e) => window.displayLocations([place])}>{place.title} </a></li>
             ))}
           </ul>
         </div>
