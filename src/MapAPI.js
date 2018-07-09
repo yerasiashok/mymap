@@ -10,7 +10,7 @@ var polygon = null;
 // over the number of places that show.
 var placeMarkers = [];
 
-function initMap() {
+export const initMap = () => {
   // Create a styles array to use with the map.
   var styles = [
     {
@@ -168,7 +168,7 @@ function initMap() {
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
-function populateInfoWindow(marker, infowindow) {
+export const populateInfoWindow = (marker, infowindow) => {
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.marker != marker) {
     // Clear the infowindow content to give the streetview time to load.
@@ -212,7 +212,7 @@ function populateInfoWindow(marker, infowindow) {
 }
 
 // This function will loop through the markers array and display them all.
-function showListings() {
+export const showListings = () => {
   var bounds = new google.maps.LatLngBounds();
   // Extend the boundaries of the map for each marker and display the marker
   for (var i = 0; i < markers.length; i++) {
@@ -223,7 +223,7 @@ function showListings() {
 }
 
 // This function will loop through the listings and hide them all.
-function hideMarkers(markers) {
+export const hideMarkers = (markers) => {
   for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(null);
   }
@@ -232,7 +232,7 @@ function hideMarkers(markers) {
 // This function takes in a COLOR, and then creates a new marker
 // icon of that color. The icon will be 21 px wide by 34 high, have an origin
 // of 0, 0 and be anchored at 10, 34).
-function makeMarkerIcon(markerColor) {
+export const makeMarkerIcon = (markerColor) => {
   var markerImage = new google.maps.MarkerImage(
     'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
     '|40|_|%E2%80%A2',
@@ -244,7 +244,7 @@ function makeMarkerIcon(markerColor) {
 }
 // This function fires when the user selects a searchbox picklist item.
 // It will do a nearby search using the selected query string or place.
-function searchBoxPlaces(searchBox) {
+export const searchBoxPlaces = (searchBox) => {
   hideMarkers(placeMarkers);
   var places = searchBox.getPlaces();
   // For each place, get the icon, name and location.
@@ -256,7 +256,7 @@ function searchBoxPlaces(searchBox) {
 
 // This function firest when the user select "go" on the places search.
 // It will do a nearby search using the entered query string or place.
-function textSearchPlaces() {
+export const textSearchPlaces = () => {
   var bounds = map.getBounds();
   hideMarkers(placeMarkers);
   var placesService = new google.maps.places.PlacesService(map);
@@ -271,7 +271,7 @@ function textSearchPlaces() {
 }
 
 // This function creates markers for each place found in either places search.
-function createMarkersForPlaces(places) {
+export const createMarkersForPlaces = (places) => {
   var bounds = new google.maps.LatLngBounds();
   for (var i = 0; i < places.length; i++) {
     var place = places[i];

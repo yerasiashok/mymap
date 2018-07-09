@@ -88,10 +88,10 @@ function initMap() {
   });
 
   // Create a searchbox in order to execute a places search
-  var searchBox = new google.maps.places.SearchBox(
-      document.getElementById('places-search'));
+  //var searchBox = new google.maps.places.SearchBox(
+      //document.getElementById('places-search'));
   // Bias the searchbox to within the bounds of the map.
-  searchBox.setBounds(map.getBounds());
+  //searchBox.setBounds(map.getBounds());
 
   // These are the real estate listings that will be shown to the user.
   // Normally we'd have these in a database instead.
@@ -112,7 +112,7 @@ function initMap() {
     {title: 'Wipro Infotech Mumbai ', location: {lat: 19.121515, lng: 72.911932}},
     {title: 'Wipro Kolkata ', location: {lat: 22.583011, lng: 88.430595}},
     {title: 'Wipro Delhi', location: {lat: 28.645672, lng: 77.284676}},
-    {title: 'Wipro Indore ', location: {lat: 22.749010, lng: 75.801279}}
+    {title: 'Wipro Indore', location: {lat: 22.749010, lng: 75.801279}}
   ];
 
   var largeInfowindow = new google.maps.InfoWindow();
@@ -156,13 +156,13 @@ function initMap() {
   
   // Listen for the event fired when the user selects a prediction from the
   // picklist and retrieve more details for that place.
-  searchBox.addListener('places_changed', function() {
+  /*searchBox.addListener('places_changed', function() {
     searchBoxPlaces(this);
-  });
+  });*/
 
   // Listen for the event fired when the user selects a prediction and clicks
   // "go" more details for that place.
-  document.getElementById('go-places').addEventListener('click', textSearchPlaces);
+  //document.getElementById('go-places').addEventListener('click', textSearchPlaces);
 }
 
 // This function populates the infowindow when the marker is clicked. We'll only allow
@@ -269,6 +269,8 @@ function textSearchPlaces() {
     }
   });
 }
+
+//document.getElementById('Wipro Indore').addEventListener('click', hideMarkers(markers));
 
 // This function creates markers for each place found in either places search.
 function createMarkersForPlaces(places) {
