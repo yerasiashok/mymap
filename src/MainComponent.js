@@ -1,10 +1,7 @@
 import React from 'react'
-//import { Link } from 'react-router-dom'
-//import BookShelfList from './BookShelfList'
 import PropTypes from 'prop-types'
 import './App.css'
 import * as MapStyles from './MapStyles.js'
-//import * as locations from './MapAPI.js'
 
 class MainComponent extends React.Component { 
   static propTypes = {
@@ -40,8 +37,8 @@ class MainComponent extends React.Component {
           </ul>
         </div>
       </nav>
-      <div id="map"></div>
-      
+      <div id="map">
+      </div>
       </div>  
     )
   }

@@ -1,14 +1,12 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 import * as PlacesAPI from './PlacesAPI.js'
-//import * as MapStyles from './MapStyles.js'
 import './App.css'
 import MainComponent from './MainComponent'
 
 class MapsApp extends React.Component {
   state = {
     placesList: PlacesAPI.locations,
-    //styles: MapStyles.styles,
     markers: []
   }
   
@@ -18,13 +16,7 @@ class MapsApp extends React.Component {
     script.async = true;
     document.body.appendChild(script);
   }
-  /*changeShelf = (modifiedbook, newShelf) => {
-    BooksAPI.update(modifiedbook, newShelf).then((res) => {
-      (modifiedbook.shelf = newShelf) && this.setState(state => ({
-        books: state.books.filter(book => book.id !== modifiedbook.id).concat([ modifiedbook ])
-      }))
-    })
-  }*/
+  
   makeMarkerIcon = (markerColor) => {
     var markerImage = new window.google.maps.MarkerImage(
       'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
@@ -36,6 +28,7 @@ class MapsApp extends React.Component {
     return markerImage;
   }
 
+  //hides the markers
   hideMarkers = (markers) => {
     for (var i = 0; i < this.state.markers.length; i++) {
       this.state.markers[i].setMap(null);
@@ -121,40 +114,33 @@ populateInfoWindow = (marker, infowindow, position) => {
     // In case the status is OK, which means the pano was found, compute the
     // position of the streetview image, then calculate the heading, then get a
     // panorama from that and set the options
-    //console.log(poi)
-    console.log("https://api.foursquare.com/v2/venues/search?ll=" +position.lat+"," +position.lng + "&oauth_token=OIAF5Z3HZOL2HPF5IDJVCWALEF32MJX1IUBKOO1FT2PMBFFU&v=20180709")
     fetch("https://api.foursquare.com/v2/venues/search?ll=" +position.lat+"," +position.lng + "&oauth_token=OIAF5Z3HZOL2HPF5IDJVCWALEF32MJX1IUBKOO1FT2PMBFFU&v=20180709")
       .then(res => res.json())
       .then(
         (result) => {
-          console.log("****", result.response.venues[0].location.country )
           foursquareAddr = result.response.venues[0].location.country;
           streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
         },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
         (error) => {
-          console.log("***", error)
           foursquareAddr = "Foursquare Not Responding"
         }
       )
 
     function getStreetView(data, status) {
       if (status === window.google.maps.StreetViewStatus.OK) {
-        //var nearStreetViewLocation = data.location.latLng;
-        //var heading = window.google.maps.geometry.spherical.computeHeading(
-          //nearStreetViewLocation, marker.position);
+        var nearStreetViewLocation = data.location.latLng;
+        var heading = window.google.maps.geometry.spherical.computeHeading(
+          nearStreetViewLocation, marker.position);
           infowindow.setContent('<div>' + marker.title + '</div><div> <h4>'+foursquareAddr+'</h4></div><div id="pano"></div>');
-          /*var panoramaOptions = {
+          var panoramaOptions = {
             position: nearStreetViewLocation,
             pov: {
               heading: heading,
               pitch: 30
             }
-          };*/
-        //var panorama = new window.google.maps.StreetViewPanorama(
-          //document.getElementById('pano'), panoramaOptions);
+          };
+        var panorama = new window.google.maps.StreetViewPanorama(
+          document.getElementById('pano'), panoramaOptions);
       } else {
         infowindow.setContent('<div>' + marker.title + '</div><div> <h4>' + foursquareAddr+ '</h4></div>' +
           '<div>No Street View Found</div>');

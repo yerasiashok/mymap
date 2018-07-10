@@ -1,5 +1,5 @@
-# MyReads Project
-Welcom to MyReads, Where you can keep track of your fav books 
+# MyMaps Project
+Welcom to MyMaps, Where you can keep track of WIPRO Offices in India here 
 
 ## Instalation 
 
@@ -15,7 +15,6 @@ You can Search for WIPRO office locations.
 ## Important
 
 Use Google Map API's and Foursquare API's
-
 
 ## Contributing
 
