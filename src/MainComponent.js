@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './App.css'
 import * as MapStyles from './MapStyles.js'
-//import * as locations from './MapAPI.js'
+import MapApi from './MapApi.js'
 
 class MainComponent extends React.Component { 
   static propTypes = {
@@ -21,8 +21,9 @@ class MainComponent extends React.Component {
         event.target.value.toLowerCase()) !== -1;
     });
     this.setState({filteredPlaces: updatedList});
-    this.props.displayLocations(updatedList);
+    //this.props.displayLocations(updatedList);
   }
+
   render() {
     return (  
       <div className="container">
@@ -35,14 +36,14 @@ class MainComponent extends React.Component {
         <div>
           <ul>
             {this.state.filteredPlaces.map((place) => (
-              <li key={place.title} > <a href="#" onClick={(e) => this.props.displayLocations([place])}>{place.title} </a></li>
+              <li key={place.title} > <a href="#"> {place.title} </a></li>
             ))}
           </ul>
         </div>
       </nav>
-      <div id="map"></div>
-      
-      </div>  
+      //<div id="map"></div>
+        <MapApi places={this.state.filteredPlaces}/> 
+      //</div>  
     )
   }
 }
